@@ -1,0 +1,32 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "local>hashicorp-support/renovate-configs"
+    ],
+    "packageRules": [
+        {
+            "matchDatasources": ["endoflife-date"],
+            "matchPackageNames": ["amazon-eks"],
+            "extractVersion": "^(?<version>.*)-eks.+$"
+        }
+    ],
+    "regexManagers": [
+        {
+            "description": "Renovate \"magic comment\"",
+            "fileMatch": [".+\\.tf$"],
+            "matchStrings": [
+                "#\\s*renovate:\\s*datasource=(?<datasource>.*?)\\s*(depName=(?<depName>.*?))?( registryUrl=(?<registryUrl>.*?))?( versioning=(?<versioning>.*?))?\\s.*?default\\s*=\\s*\"(?<currentValue>.*)\""
+            ],
+            "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{/if}}"
+        },
+        {
+            "description": "Update Helm chart version",
+            "fileMatch": [".+\\.tf$"],
+            "matchStrings": [
+                "#\\s*renovate:\\s*helm:\\s*registryUrl=(?<registryUrl>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?default\\s*=\\s*\"(?<currentValue>.*)\""
+            ],
+            "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{/if}}",
+            "datasourceTemplate": "helm"
+        }
+    ]
+}

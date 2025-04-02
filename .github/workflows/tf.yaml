@@ -1,0 +1,16 @@
+name: Terraform
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  terraform:
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: hashicorp-support/tf-github-actions/.github/workflows/tf-pr.yaml@v1.0.2

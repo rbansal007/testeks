@@ -1,0 +1,16 @@
+name: Generate terraform docs
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  docs:
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: hashicorp-support/tf-github-actions/.github/workflows/tf-docs.yaml@v1.0.2
